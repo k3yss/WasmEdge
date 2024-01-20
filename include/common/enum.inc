@@ -317,6 +317,7 @@ O(Table__fill, 0xFC11, "table.fill")
 // SIMD Memory Instructions
 O(V128__load, 0xFD00, "v128.load")
 O(V128__load8x8_s, 0xFD01, "v128.load8x8_s")
+// Name, Value, String
 O(V128__load8x8_u, 0xFD02, "v128.load8x8_u")
 O(V128__load16x4_s, 0xFD03, "v128.load16x4_s")
 O(V128__load16x4_u, 0xFD04, "v128.load16x4_u")

@@ -764,6 +764,7 @@ Expect<void> Executor::execute(Runtime::StackManager &StackMgr,
     case OpCode::V128__load8x8_s:
       return runLoadExpandOp<int8_t, int16_t>(
           StackMgr, *getMemInstByIdx(StackMgr, Instr.getTargetIndex()), Instr);
+    // fucking up here
     case OpCode::V128__load8x8_u:
       return runLoadExpandOp<uint8_t, uint16_t>(
           StackMgr, *getMemInstByIdx(StackMgr, Instr.getTargetIndex()), Instr);

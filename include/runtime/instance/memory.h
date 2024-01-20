@@ -26,6 +26,7 @@
 #include <memory>
 #include <set>
 #include <utility>
+#include <iostream>
 
 namespace WasmEdge {
 namespace Runtime {
@@ -73,7 +74,7 @@ public:
   const AST::MemoryType &getMemoryType() const noexcept { return MemType; }
 
   /// Check access size is valid.
-  bool checkAccessBound(uint32_t Offset, uint32_t Length) const noexcept {
+  bool  checkAccessBound(uint32_t Offset, uint32_t Length) const noexcept {
     const uint64_t AccessLen =
         static_cast<uint64_t>(Offset) + static_cast<uint64_t>(Length);
     return AccessLen <= MemType.getLimit().getMin() * kPageSize;
@@ -264,10 +265,11 @@ public:
   /// \returns void when success, ErrCode when failed.
   template <typename T, uint32_t Length = sizeof(T)>
   typename std::enable_if_t<IsWasmNumV<T>, Expect<void>>
-  loadValue(T &Value, uint32_t Offset) const noexcept {
+    loadValue(T &Value, uint32_t Offset) const noexcept {
     // Check the data boundary.
     static_assert(Length <= sizeof(T));
     // Check the memory boundary.
+    // here is the first two error lines coming from
     if (unlikely(!checkAccessBound(Offset, Length))) {
       spdlog::error(ErrCode::Value::MemoryOutOfBounds);
       spdlog::error(ErrInfo::InfoBoundary(Offset, Length, getBoundIdx()));

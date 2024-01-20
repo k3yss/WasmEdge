@@ -207,7 +207,7 @@ Executor::getTabInstByIdx(Runtime::StackManager &StackMgr,
   }
   return ModInst->unsafeGetTable(Idx);
 }
-
+// maybe this function is problamatic
 Runtime::Instance::MemoryInstance *
 Executor::getMemInstByIdx(Runtime::StackManager &StackMgr,
                           const uint32_t Idx) const {

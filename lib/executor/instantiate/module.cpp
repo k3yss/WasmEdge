@@ -13,6 +13,7 @@ namespace WasmEdge {
 namespace Executor {
 
 // Instantiate module instance. See "include/executor/Executor.h".
+// maybe recursion
 Expect<std::unique_ptr<Runtime::Instance::ModuleInstance>>
 Executor::instantiate(Runtime::StoreManager &StoreMgr, const AST::Module &Mod,
                       std::optional<std::string_view> Name) {

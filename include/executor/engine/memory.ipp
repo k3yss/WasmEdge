@@ -73,7 +73,9 @@ Executor::runLoadExpandOp(Runtime::StackManager &StackMgr,
                           const AST::Instruction &Instr) {
   static_assert(sizeof(TOut) == sizeof(TIn) * 2);
   // Calculate EA
+  // Getting the top element of a stack
   ValVariant &Val = StackMgr.getTop();
+  // converting the value to uint32_t
   if (Val.get<uint32_t>() >
       std::numeric_limits<uint32_t>::max() - Instr.getMemoryOffset()) {
     spdlog::error(ErrCode::Value::MemoryOutOfBounds);
@@ -84,11 +86,14 @@ Executor::runLoadExpandOp(Runtime::StackManager &StackMgr,
         ErrInfo::InfoInstruction(Instr.getOpCode(), Instr.getOffset()));
     return Unexpect(ErrCode::Value::MemoryOutOfBounds);
   }
-  uint32_t EA = Val.get<uint32_t>() + Instr.getMemoryOffset();
+  uint32_t A = Val.get<uint32_t>();
+  uint32_t B = Instr.getMemoryOffset();
+  uint32_t EA =  A + B;
 
   // Value = Mem.Data[EA : N / 8]
   uint64_t Buffer;
-  if (auto Res = MemInst.loadValue<decltype(Buffer), 8>(Buffer, EA); !Res) {
+  // here is the fuckup
+  if (auto Res = MemInst.loadValue<decltype(Buffer)>(Buffer, EA); !Res) {
     spdlog::error(
         ErrInfo::InfoInstruction(Instr.getOpCode(), Instr.getOffset()));
     return Unexpect(Res);
